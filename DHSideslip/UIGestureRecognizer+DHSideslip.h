@@ -1,6 +1,6 @@
 //
 //  UIGestureRecognizer+DHSideslip.h
-//  DHDrawerMenu
+//  DHSideslip
 //
 //  Created by DH on 2018/11/29.
 //  Copyright © 2018年 DH. All rights reserved.

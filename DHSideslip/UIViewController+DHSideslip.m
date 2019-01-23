@@ -1,6 +1,6 @@
 //
 //  UIViewController+DHSideslip.m
-//  DHDrawerMenu
+//  DHSideslip
 //
 //  Created by DH on 2018/11/23.
 //  Copyright © 2018年 DH. All rights reserved.
@@ -73,7 +73,7 @@ NSString * const dh_sideslipTransitionDelegateKey = @"dh_sideslipTransitionDeleg
 
 #pragma mark - push
 - (void)dh_sideslipPushViewController:(UIViewController *)viewController {
-//    __weak
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         DHSideslipInnerConfig *popConfig = [DHSideslipInnerConfig defaultPop];
         // 注册手势
@@ -81,6 +81,12 @@ NSString * const dh_sideslipTransitionDelegateKey = @"dh_sideslipTransitionDeleg
         if ([viewController isKindOfClass:[UINavigationController class]]) {
             UINavigationController *nav = (id)viewController;
             vc = nav.childViewControllers[0];
+            NSString *path = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"image.bundle"];
+            UIImage *img = [UIImage imageNamed:@"back" inBundle:[NSBundle bundleWithPath:path] compatibleWithTraitCollection:nil];
+//            UIButton *btn = [UIButton new];
+//            [btn setImage:img forState:UIControlStateNormal];
+//            vc.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btn];
+            vc.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:img style:UIBarButtonItemStylePlain target:vc action:@selector(dh_innerSideslipPopBack)];
         } else {
             vc = viewController;
         }
@@ -96,7 +102,6 @@ NSString * const dh_sideslipTransitionDelegateKey = @"dh_sideslipTransitionDeleg
 #pragma mark - pop
 - (void)dh_sideslipPopViewController {
     DHSideslipInnerConfig *config = [DHSideslipInnerConfig defaultPop];
-
     [self dh_innerSideslipDismissWithConfig:config gr:nil];
 }
 
@@ -182,6 +187,11 @@ NSString * const dh_sideslipTransitionDelegateKey = @"dh_sideslipTransitionDeleg
         UIGestureRecognizer *gr = note.userInfo[@"gr"];
         [weak_self dh_innerSideslipDismissWithConfig:config gr:gr];
     }];
+
+    [[NSNotificationCenter defaultCenter] addObserverForName:DHSideslipMaskViewTapGRNotificationName object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+        DHSideslipInnerConfig *config = note.userInfo[@"config"];
+        [weak_self dh_innerSideslipDismissWithConfig:config gr:nil];
+    }];
 }
 
 
@@ -227,9 +237,6 @@ NSString * const dh_sideslipTransitionDelegateKey = @"dh_sideslipTransitionDeleg
     
     [vc addMaskViewGRNoti];
 
-//    if (!gr) {
-//        config.direction = config.direction;
-//    }
     DHSideslipTransitionDelegate *delegate = [[DHSideslipTransitionDelegate alloc] initWithConfig:config];
     // 强应用delegate.
     vc.dh_sideslipTransitionDelegate = delegate;
@@ -240,8 +247,12 @@ NSString * const dh_sideslipTransitionDelegateKey = @"dh_sideslipTransitionDeleg
 }
 
 
-#pragma mark - getter.setter
+- (void)dh_innerSideslipPopBack {
+    [self dh_sideslipPopViewController];
+}
 
+
+#pragma mark - getter.setter
 - (void)setDh_sideslipTransitionDelegate:(DHSideslipTransitionDelegate *)dh_sideslipTransitionDelegate {
     
     objc_setAssociatedObject(self, &dh_sideslipTransitionDelegate, dh_sideslipTransitionDelegate, OBJC_ASSOCIATION_RETAIN);
@@ -251,4 +262,7 @@ NSString * const dh_sideslipTransitionDelegateKey = @"dh_sideslipTransitionDeleg
     id object = objc_getAssociatedObject(self, &dh_sideslipTranstionDelegateKey);
     return object;
 }
+
+
+
 @end

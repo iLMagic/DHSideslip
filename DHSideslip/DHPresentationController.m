@@ -1,6 +1,6 @@
 //
 //  DHPresentationController.m
-//  DHDrawerMenu
+//  DHSideslip
 //
 //  Created by DH on 2018/11/15.
 //  Copyright © 2018年 DH. All rights reserved.
@@ -20,13 +20,11 @@
 - (instancetype)initWithPresentedViewController:(UIViewController *)presentedViewController presentingViewController:(UIViewController *)presentingViewController config:(DHSideslipInnerConfig *)config {
     if (self = [super initWithPresentedViewController:presentedViewController presentingViewController:presentingViewController]) {
         _config = config;
-        presentedViewController.modalPresentationStyle = UIModalPresentationCustom;
     }
     return self;
 }
 
 - (CGRect)frameOfPresentedViewInContainerView {
-//    return CGRectMake(0, 0, self.containerView.bounds.size.width * _config.scale, self.containerView.bounds.size.height);
     CGFloat w = self.containerView.bounds.size.width;
     CGFloat h = self.containerView.bounds.size.height;
     
@@ -45,13 +43,6 @@
     }
     return CGRectZero;
 }
-
-
-- (void)dealloc {
-    NSLog(@"%s", __func__);
-}
-
-
 
 @end
 

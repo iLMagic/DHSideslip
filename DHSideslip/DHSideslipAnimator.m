@@ -1,6 +1,6 @@
 //
 //  DHDrawerAnimator.m
-//  DHDrawerMenu
+//  DHSideslip
 //
 //  Created by DH on 2018/11/1.
 //  Copyright © 2018年 DH. All rights reserved.
@@ -8,8 +8,6 @@
 
 #import "DHSideslipAnimator.h"
 #import "DHSideslipConfig.h"
-//#import "DHInterctiveTransition.h"
-//#import "DHSideslipTransitionDelegate.h"
 #import "UIViewController+DHSideslip.h"
 #import "UIGestureRecognizer+DHSideslip.h"
 
@@ -17,6 +15,7 @@
 
 @property (nonatomic, strong) UIView *maskView;
 @property (nonatomic, strong) UIPanGestureRecognizer *panGR;
+@property (nonatomic, strong) UITapGestureRecognizer *tapGR;
 @end
 
 @implementation DHSideslipAnimator
@@ -24,16 +23,40 @@
 - (instancetype)initWithConfig:(DHSideslipInnerConfig *)config {
     if (self = [super init]) {
         _config = config;
-        _maskView = ({
-            UIView *view = [UIView new];
-            view.backgroundColor = [UIColor blackColor];
-            _panGR = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(maskViewPan:)];
-            _panGR.dh_config = [self convertConfig];
-            [view addGestureRecognizer:_panGR];
-            view;
+        
+        if (_config.needMaskView) {
+            _maskView = ({
+                UIView *view = [UIView new];
+                view.backgroundColor = [UIColor blackColor];
+                view;
+            });
+        }
+        
+        _tapGR = ({
+            UITapGestureRecognizer *gr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(maskViewTap:)];
+            gr.dh_config = [self convertConfig];
+            gr;
         });
+        _panGR = ({
+            UIPanGestureRecognizer *gr = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(maskViewPan:)];
+            gr.dh_config = [self convertConfig];
+            gr;
+        });
+
+        if (_config.allowMaskViewPan) {
+            [_maskView addGestureRecognizer:_panGR];
+        }
+        if (_config.allowMaskViewTap) {
+            [_maskView addGestureRecognizer:_tapGR];
+        }
+
     }
     return self;
+}
+
+- (void)maskViewTap:(UITapGestureRecognizer *)gr {
+    NSDictionary *dict = @{@"config" : gr.dh_config};
+    [[NSNotificationCenter defaultCenter] postNotificationName:DHSideslipMaskViewTapGRNotificationName object:nil userInfo:dict];
 }
 
 - (void)maskViewPan:(UIPanGestureRecognizer *)gr {
@@ -122,7 +145,7 @@
         } else if (_config.direction == DHSideslipDirectionToBottom) {
             y = CGRectGetMinY(fromViewInitFrame) - h;
         } else if (_config.direction == DHSideslipDirectionToTop) {
-            y = CGRectGetMinY(fromViewInitFrame) - CGRectGetHeight(fromViewInitFrame);
+            y = CGRectGetMaxY(fromViewInitFrame);
         } else {
             NSAssert(NO, @"error");
         }
@@ -135,15 +158,13 @@
         // toView最后加入，在最上层
         [containerView addSubview:toView];
     } else {
-//        [containerView insertSubview:toView belowSubview:fromView];
+        
     }
     
     [UIView animateWithDuration:_config.duration animations:^{
         if (self.config.isPresent) {
             toView.frame = toViewFinalFrame;
-            self.maskView.alpha = 0.3f;
-//            UIView *fromView1 = [transitionContext viewForKey:UITransitionContextFromViewKey];
-//            NSLog(@"%@", fromView1);
+            self.maskView.alpha = _config.maskViewAlpha;
             if (self.config.isPushPop) {
                 CGFloat offset = -CGRectGetWidth(fromViewInitFrame) * 0.5;
                 fromView.frame = CGRectOffset(fromView.frame, offset, 0);
@@ -174,27 +195,15 @@
         }
     } completion:^(BOOL finished) {
         BOOL wasCancelled = [transitionContext transitionWasCancelled];
-        if (wasCancelled) {
-//            [toView removeFromSuperview];
-        }
         if (self.config.isPresent && wasCancelled) {
             [self.maskView removeFromSuperview];
         }
         if (!self.config.isPresent && !wasCancelled) {
             [self.maskView removeFromSuperview];
         }
-//        [containerView bringSubviewToFront:toView];
         [transitionContext completeTransition:!wasCancelled];
-        NSLog(@"动画完成");
     }];
 }
-
-
-- (void)dealloc {
-    NSLog(@"%s", __func__);
-
-}
-
 
 @end
 

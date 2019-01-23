@@ -1,6 +1,6 @@
 //
 //  DHSideslipConst.h
-//  DHDrawerMenu
+//  DHSideslip
 //
 //  Created by DH on 2018/12/3.
 //  Copyright © 2018年 DH. All rights reserved.
@@ -44,5 +44,6 @@ typedef NS_ENUM(NSInteger, DHSideslipGestureType) {
     DHSideslipGestureTypeScreenEdgesPan,
 };
 
-
 UIKIT_EXTERN NSString * const DHSideslipMaskViewPanGRNotificationName;
+
+UIKIT_EXTERN NSString * const DHSideslipMaskViewTapGRNotificationName;

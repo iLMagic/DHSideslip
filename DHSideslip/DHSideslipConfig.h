@@ -1,6 +1,6 @@
 //
 //  DHSideslipConfig.h
-//  DHDrawerMenu
+//  DHSideslip
 //
 //  Created by DH on 2018/11/23.
 //  Copyright © 2018年 DH. All rights reserved.

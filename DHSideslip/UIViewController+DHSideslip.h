@@ -1,6 +1,6 @@
 //
 //  UIViewController+DHSideslip.h
-//  DHDrawerMenu
+//  DHSideslip
 //
 //  Created by DH on 2018/11/23.
 //  Copyright © 2018年 DH. All rights reserved.
@@ -12,11 +12,7 @@
 #import "DHSideslipConfig.h"
 
 UIKIT_EXTERN NSString * const dh_sideslipTransitionDelegateKey;
-//UIKIT_EXTERN NSString * const dismissConfigHandlerKey;
-//UIKIT_EXTERN NSString * const presentConfigHandlerKey;
-//UIKIT_EXTERN NSString * const sideslipTranstionDelegateKey;
 
-//typedef UIViewController *(^DHSideslipControllerBlockType)(void);
 @class DHSideslipTransitionDelegate;
 @interface UIViewController (DHSideslip)
 // 为了强引用transitionDelegate.到presentedVC，生命周期同presentedVC.
@@ -49,15 +45,23 @@ UIKIT_EXTERN NSString * const dh_sideslipTransitionDelegateKey;
 
 
 /**
- dismiss
+ dismiss点触
 
  @param config config
  */
 - (void)dh_sideslipDismissViewControllerWithConfig:(DHSideslipConfigBlockType)config;
 
-
+/**
+ 供菜单页面弹出控制器使用(push动画)，
+ 支持返回手势。
+ 
+ @param viewController vc
+ */
 - (void)dh_sideslipPushViewController:(UIViewController *)viewController;
 
+/**
+ 与push对应的dismiss，点触。
+ */
 - (void)dh_sideslipPopViewController;
 @end
 
