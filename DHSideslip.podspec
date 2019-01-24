@@ -1,9 +1,9 @@
 Pod::Spec.new do |s|
   s.name         = "DHSideslip"             #名称
-  s.version      = "0.0.1"              #版本号
+  s.version      = "0.0.2"              #版本号
   s.summary      = "侧滑框架"       #简短介绍
   s.description  = <<-DESC
-                    侧滑框架
+                    模仿"摩拜单车""滴滴"的侧滑菜单弹出方式。提供菜单内弹出控制器的push动画。
                    DESC
 
   s.homepage     = "http://github.com/iLMagic/DHSideslip.git"
