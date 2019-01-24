@@ -164,7 +164,7 @@
     [UIView animateWithDuration:_config.duration animations:^{
         if (self.config.isPresent) {
             toView.frame = toViewFinalFrame;
-            self.maskView.alpha = _config.maskViewAlpha;
+            self.maskView.alpha = self.config.maskViewAlpha;
             if (self.config.isPushPop) {
                 CGFloat offset = -CGRectGetWidth(fromViewInitFrame) * 0.5;
                 fromView.frame = CGRectOffset(fromView.frame, offset, 0);
