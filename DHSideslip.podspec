@@ -24,7 +24,12 @@ Pod::Spec.new do |s|
 
   s.frameworks = 'UIKit'    #所需的framework,多个用逗号隔开
   s.module_name = 'DHSideslip'              #模块名称
-
+  # s.resource_bundles = {
+  	# 'image' => ['DHSideslip/image']
+  # }
+  s.resources = 'DHSideslip/image.bundle'
   # s.dependency "JSONKit", "~> 1.4"    #依赖关系，该项目所依赖的其他库，如果有多个可以写多个 s.dependency
+
+#  pod trunk push DHSideslip.podspec --allow-warnings 用于升级pod库后的更新
 
 end
