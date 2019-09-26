@@ -56,6 +56,7 @@
                 config.direction = DHSideslipDirectionToLeft;
             }];
             DHNavigationViewController *nav = [[DHNavigationViewController alloc] initWithRootViewController:vc];
+            nav.modalPresentationStyle = UIModalPresentationFullScreen;
             [self presentViewController:nav animated:YES completion:nil];
             
         } break;

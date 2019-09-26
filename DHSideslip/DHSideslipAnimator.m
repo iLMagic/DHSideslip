@@ -166,7 +166,7 @@
             toView.frame = toViewFinalFrame;
             self.maskView.alpha = self.config.maskViewAlpha;
             if (self.config.isPushPop) {
-                CGFloat offset = -CGRectGetWidth(fromViewInitFrame) * 0.5;
+                CGFloat offset = -CGRectGetWidth(fromView.frame) * 0.5;
                 fromView.frame = CGRectOffset(fromView.frame, offset, 0);
             }
         } else {

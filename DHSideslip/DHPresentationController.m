@@ -12,7 +12,7 @@
 @interface DHPresentationController ()
 @property (nonatomic, strong) UIView *coverView;
 @property (nonatomic, strong) UIView *finalPresentedView;
-@property (nonatomic, weak) DHSideslipInnerConfig *config;
+@property (nonatomic, strong) DHSideslipInnerConfig *config;
 @end
 
 @implementation DHPresentationController
