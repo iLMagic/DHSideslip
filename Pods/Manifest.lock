@@ -7,7 +7,7 @@ DEPENDENCIES:
   - MLeaksFinder
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - FBRetainCycleDetector
     - MLeaksFinder
 
@@ -17,4 +17,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 93b4314454a62a9434cb81e914b8ca4d24fbe078
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.8.0
